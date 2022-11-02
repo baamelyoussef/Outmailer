@@ -19,6 +19,7 @@ export default function Home() {
   const [showLogin, setShowLogin] = useState(true)
 const [isSearchLoading, setIsSearchLoading] = useState(false)
 const [isDisposable, setisDisposable] = useState(false)
+const [showRes, setShowRes] = useState(false)
 const [isDNS, setIsDNS] = useState(false)
 const [isWl, setIsWl] = useState(false)
 const [domain, setDomain] = useState('')
@@ -44,6 +45,7 @@ const searchEmail =(values:any)=>{
       setDomain(res.data.domain)
     }
     setIsSearchLoading(false)
+    setShowRes(true)
   })
   .catch((err)=>{
     console.log(err)
@@ -117,7 +119,7 @@ const searchEmail =(values:any)=>{
         </Button>
       </Form.Item>
       </Form>
-      <Card title={valueEmail} style={{margin:"0 30px"}}
+      {showRes&& <Card title={valueEmail} style={{margin:"0 30px"}}
       extra={
         <Button icon={<UserAddOutlined />}>Add Lead</Button>
       }>
@@ -141,7 +143,7 @@ const searchEmail =(values:any)=>{
 
     </Card.Grid>
     
-  </Card>
+  </Card>}
       </Col></Row>
     </Content>
     </Layout>
