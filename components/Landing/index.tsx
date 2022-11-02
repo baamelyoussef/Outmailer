@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Layout,Row,Col,Input,Form, message } from 'antd';
-import{UserAddOutlined,KeyOutlined,LogoutOutlined } from '@ant-design/icons'
+import{UserAddOutlined,KeyOutlined,LogoutOutlined,SendOutlined } from '@ant-design/icons'
 import HomeBg from '../../assets/svg/homebg.svg'
 import React from 'react';
 import Arrow from '../../assets/img/arrow.png' 
@@ -14,13 +14,18 @@ import Spam from '../../assets/img/SPAM.png'
 import Image from 'next/image';
 import Logo from '../../assets/img/logo.png'
 import axios from 'axios';
+import { useRouter } from 'next/router';
+  
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
+
 
 function index() {
 const [showLogin, setShowLogin] = useState(true)
 const [isSearchLoading, setIsSearchLoading] = useState(false)
 const [valueEmail, setValueEmail] = useState("")
+const router = useRouter();
+
 useEffect(() => {
   localStorage.getItem('accessToken')?setShowLogin(false):setShowLogin(true)
 }, [showLogin])
@@ -108,32 +113,7 @@ const searchEmail =(values:any)=>{
                       /> 
                       <h1 style={{fontSize:'2rem'}}>Try it out </h1>
                       <p>Validate and verify email addresses.<br></br> Check if email address is disposable, temporary, has invalid MX records, detect if its mistyped, inactive or non-existent.</p>
-                      <Form  name="dynamic_rule" onFinish={searchEmail} 
-                      style={{
-                        display:'flex',
-                        justifyContent:'center'
-                      }}>
-      <Form.Item
-        name="email"
-        style={{width:'70%'}}
-        getValueFromEvent={(e)=>{
-          setValueEmail(e.target.value)
-        }}
-        rules={[
-          {
-            required: true,
-            message: 'please enter an email address',
-          },
-        ]}
-      >
-        <Input placeholder="jeff@google.com" type='email' />
-      </Form.Item>
-      <Form.Item >
-        <Button type="primary" onClick={searchEmail} loading={isSearchLoading}>
-          Check
-        </Button>
-      </Form.Item>
-      </Form>
+                      <Button icon={<SendOutlined />} style={{ padding:'0 50px'}} onClick={()=>{router.push('/login')}}> Get started</Button>
         </Col>
         </Row>
         <Row align="middle"

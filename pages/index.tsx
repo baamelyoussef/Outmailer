@@ -1,10 +1,11 @@
 'use client';
 
 import Head from 'next/head'
-import { CheckCircleFilled,CloseCircleFilled, UserAddOutlined  } from '@ant-design/icons';
+import { CheckCircleFilled,CloseCircleFilled,DeleteOutlined, UserAddOutlined,UserOutlined  } from '@ant-design/icons';
+import VirtualList from 'rc-virtual-list';
 
 import axios from 'axios'
-import { Button, Form,Card,Badge, Input,message,Row,Col, InputNumber,Spin,Layout } from 'antd';
+import { Button, Form,List,Avatar,Card,PageHeader,Badge, Input,message,Row,Col, InputNumber,Spin,Layout } from 'antd';
 import Logo from "../assets/img/logo.png"
 import Image from 'next/image'
 import { useEffect,useState } from 'react';
@@ -24,6 +25,23 @@ const [isDNS, setIsDNS] = useState(false)
 const [isWl, setIsWl] = useState(false)
 const [domain, setDomain] = useState('')
 const [valueEmail, setValueEmail] = useState("")
+const [data, setData] = useState([]);
+  const appendData = () => {
+    fetch(fakeDataUrl)
+      .then((res) => res.json())
+      .then((body) => {
+        setData(data.concat(body.results));
+        message.success(`${body.results.length} more items loaded!`);
+      });
+  };
+  useEffect(() => {
+    appendData();
+  }, []);
+  const onScroll = (e:any) => {
+    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
+      appendData();
+    }
+  };
 useEffect(() => {
   localStorage.getItem('accessToken')?setShowLogin(false):setShowLogin(true)
 }, [showLogin])
@@ -32,6 +50,7 @@ useEffect(() => {
 
 const searchEmail =(values:any)=>{
   setIsSearchLoading(true)
+  
   axios.get('https://www.disify.com/api/email/'+valueEmail)
   .then((res)=>{
     console.log(res)
@@ -58,7 +77,10 @@ const searchEmail =(values:any)=>{
       router.push('/home')
     }
   })
-  
+  const fakeDataUrl =
+  'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
+  const ContainerHeight = 400;
+
 
   return (
     <Layout>
@@ -90,7 +112,7 @@ const searchEmail =(values:any)=>{
         
         verticalAlign: 'middle',
         marginTop:'2rem', 
-        marginBottom:'5rem'
+        marginBottom:'.5rem'
         }}>
     <p>Validate and verify email addresses.<br></br> Check if email address is disposable, temporary, has invalid MX records, detect if its mistyped, inactive or non-existent.</p>
                       <Form  name="dynamic_rule" onFinish={searchEmail} 
@@ -144,7 +166,50 @@ const searchEmail =(values:any)=>{
     </Card.Grid>
     
   </Card>}
-      </Col></Row>
+      </Col>
+      </Row>
+      <PageHeader
+    className="site-page-header"
+    title="My Leads"
+    subTitle="Leads that you have saved from previous searchs."
+    style={{
+      margin:"0 140px !important",
+
+    }}
+  >
+      <Row align="middle"
+        style={{textAlign: "center", display:'flex',justifyContent:'center'}}>
+        <Col span={24} style={{
+        
+        verticalAlign: 'middle',
+        marginBottom:'5rem',
+        }}>
+          <List
+          style={{
+            margin:"0 140px !important",
+
+          }}>
+      <VirtualList
+        data={data}
+        height={ContainerHeight}
+        itemHeight={47}
+        itemKey="email"
+        onScroll={onScroll}
+      >
+        {(item) => (
+          <List.Item >
+            <List.Item.Meta
+              avatar={<UserOutlined />}
+              title={<a href="https://ant.design">Lead Name</a>}
+              description={"Lead@gmail.com"}
+            />
+            <div><DeleteOutlined /></div>
+          </List.Item>
+        )}
+      </VirtualList>
+    </List>
+          </Col>
+          </Row></PageHeader>
     </Content>
     </Layout>
   )
