@@ -1,5 +1,7 @@
-import { Button, Layout,Row,Col,Input } from 'antd';
-import{UserAddOutlined,KeyOutlined } from '@ant-design/icons'
+'use client';
+
+import { Button, Layout,Row,Col,Input,Form, message } from 'antd';
+import{UserAddOutlined,KeyOutlined,LogoutOutlined } from '@ant-design/icons'
 import HomeBg from '../../assets/svg/homebg.svg'
 import React from 'react';
 import Arrow from '../../assets/img/arrow.png' 
@@ -7,13 +9,46 @@ import Link from 'next/link';
 import EmailDeliv from '../../assets/svg/email_deliverability.svg'
 import SpamCheck from '../../assets/svg/email_spam_checker.svg'
 import { url } from 'inspector';
+import { useState,useEffect } from 'react';
 import Spam from '../../assets/img/SPAM.png'
 import Image from 'next/image';
 import Logo from '../../assets/img/logo.png'
+import axios from 'axios';
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
 
 function index() {
+const [showLogin, setShowLogin] = useState(true)
+const [isSearchLoading, setIsSearchLoading] = useState(false)
+const [valueEmail, setValueEmail] = useState("")
+useEffect(() => {
+  localStorage.getItem('accessToken')?setShowLogin(false):setShowLogin(true)
+}, [showLogin])
+
+
+
+const searchEmail =(values:any)=>{
+  setIsSearchLoading(true)
+  axios.get('https://www.disify.com/api/email/'+valueEmail)
+  .then((res)=>{
+    console.log(res)
+    if(!res.data.format){
+      message.warning('Wrong Format')
+    }
+    setIsSearchLoading(false)
+  })
+  .catch((err)=>{
+    console.log(err)
+    message.error(err.message)
+  })
+}
+  const logOut =()=>{
+    localStorage.setItem("accessToken",'')
+    window.location.reload()
+    setTimeout(() => {
+      message.success('You are loged out')
+    }, 3000);
+  }
   return (<><Layout>
       <Header
       style={{
@@ -37,7 +72,8 @@ function index() {
             style={{
                 margin:'10px'
             }}>
-            <Link href='/login'><Button icon={<KeyOutlined />}> Log In</Button></Link>
+            {showLogin &&<Link href='/login'><Button icon={<KeyOutlined />}> Log In</Button></Link>}
+            {!showLogin &&<Button  icon={<LogoutOutlined />} onClick={logOut}> Log out</Button>}
             <Link href='/register'><Button type='primary' icon={<UserAddOutlined/>}> Register</Button></Link>
             </div>
         </div>
@@ -48,7 +84,7 @@ function index() {
     backgroundSize:'contain',
     backgroundPosition:'center',
     backgroundRepeat:'no-repeat',
-    height:'325px'}}>
+    height:'325px'}} className="mediaMobile">
         <Col span={24} style={{
         verticalAlign: 'middle',
         }}>
@@ -69,10 +105,35 @@ function index() {
                         alt='arrow'
                         src={Arrow}
                         width={100}
-                      /> <h1 style={{fontSize:'2rem'}}>Try it out </h1>
+                      /> 
+                      <h1 style={{fontSize:'2rem'}}>Try it out </h1>
                       <p>Validate and verify email addresses.<br></br> Check if email address is disposable, temporary, has invalid MX records, detect if its mistyped, inactive or non-existent.</p>
-
-            <Search style={{width:"70%"}} placeholder="jeff@nasa.com" enterButton="Search" size="large" />
+                      <Form  name="dynamic_rule" onFinish={searchEmail} 
+                      style={{
+                        display:'flex',
+                        justifyContent:'center'
+                      }}>
+      <Form.Item
+        name="email"
+        style={{width:'70%'}}
+        getValueFromEvent={(e)=>{
+          setValueEmail(e.target.value)
+        }}
+        rules={[
+          {
+            required: true,
+            message: 'please enter an email address',
+          },
+        ]}
+      >
+        <Input placeholder="jeff@google.com" type='email' />
+      </Form.Item>
+      <Form.Item >
+        <Button type="primary" onClick={searchEmail} loading={isSearchLoading}>
+          Check
+        </Button>
+      </Form.Item>
+      </Form>
         </Col>
         </Row>
         <Row align="middle"

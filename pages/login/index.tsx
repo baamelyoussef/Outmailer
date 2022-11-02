@@ -5,8 +5,9 @@ import HomeBg from "../../assets/svg/homebg.svg"
 import Logo from "../../assets/img/logo.png"
 import { useState } from 'react';
 import{UserAddOutlined,KeyOutlined } from '@ant-design/icons'
-import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { signInWithEmailAndPassword, getAuth, User } from 'firebase/auth';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 const { Header, Footer, Sider, Content } = Layout;
 import { app } from '../../firebase-config';
 
@@ -16,15 +17,17 @@ import Image from 'next/image';
 const index: React.FC = () => {
     
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter();
+
   const onFinish = (values: any) => {
     setIsLoading(true)
     const authentication = getAuth(app);
     signInWithEmailAndPassword(authentication, values.email, values.password)
         .then((response) => {
-          console.log("res",response)
+          localStorage.setItem('accessToken', response.user.accessToken) 
           message.success('You are loged in')
-
           setIsLoading(false)
+          router.push('/')
       }).catch((err)=>{
         setIsLoading(false)
         console.log(err.code)
@@ -40,7 +43,8 @@ const index: React.FC = () => {
   };
 
   return (
-    <><Layout
+    <>
+    <Layout
     style={isLoading?{filter:"blur(4px)"}:{}}>
     <Header
     style={{
@@ -79,7 +83,6 @@ const index: React.FC = () => {
     <Form
       name="normal_login"
       className="login-form"
-      initialValues={{ remember: true }}
       onFinish={onFinish}
     >
       <Form.Item
@@ -108,8 +111,10 @@ const index: React.FC = () => {
         <br></br><br></br>Don't have an account? <Link href='/register'>register here</Link>
       </Form.Item>
     </Form></Col>
-    </Row></Content>
-    </Layout><>{isLoading&&<Spin style={{
+    </Row>
+    </Content>
+    </Layout>
+    <>{isLoading&&<Spin style={{
             position: "absolute",
             left: "50%",
             transform: "translate(-50%, -40%)",

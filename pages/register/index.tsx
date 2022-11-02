@@ -6,6 +6,7 @@ import{UserAddOutlined,KeyOutlined } from '@ant-design/icons'
 import React,{use, useState} from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { app } from '../../firebase-config';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -33,6 +34,7 @@ const index: React.FC = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter();
 
   const onFinish = (values: any) => {
     console.log(values);
@@ -40,9 +42,11 @@ const index: React.FC = () => {
     
       createUserWithEmailAndPassword(authentication, values.user.email, values.user.password)
         .then((response) => {
+          localStorage.setItem('accessToken', response.user.accessToken)
           console.log("res",response)
           message.success('Account created successfully')
           setIsLoading(false)
+          router.push('/')
 
       }).catch((err)=>{
         console.log(err.code)
