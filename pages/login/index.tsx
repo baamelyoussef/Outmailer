@@ -23,7 +23,7 @@ const index: React.FC = () => {
     setIsLoading(true)
     const authentication = getAuth(app);
     signInWithEmailAndPassword(authentication, values.email, values.password)
-        .then((response) => {
+        .then((response:any) => {
           localStorage.setItem('accessToken', response.user.accessToken) 
           message.success('You are loged in')
           setIsLoading(false)
