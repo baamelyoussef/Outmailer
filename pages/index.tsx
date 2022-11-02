@@ -55,7 +55,7 @@ const searchEmail =(values:any)=>{
   const router = useRouter();
   useEffect(() => {
     if(!localStorage.getItem('accessToken') ||localStorage.getItem('accessToken')== ''){
-      router.push('/landing')
+      router.push('/home')
     }
   })
   
