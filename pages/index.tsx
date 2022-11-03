@@ -50,7 +50,7 @@ export default function Home() {
     let leadsList: any = []
     let lsLL: any = ''
     let key: any = localStorage.getItem("id")
-    setIsLoading(true)
+    // setIsLoading(true)
     const q = query(collection(db, "leads"), where("uid", "==", key));
     const docRef = getDocs(q)
       .then((querySnapshot) => {
@@ -66,7 +66,7 @@ export default function Home() {
         })
         setLeads(leadsList)
         localStorage.setItem('leadsList', JSON.stringify(leadsList))
-        setIsLoading(false)
+        // setIsLoading(false)
       })
     console.log(docRef)
     lsLL = localStorage.getItem('leadsList')
