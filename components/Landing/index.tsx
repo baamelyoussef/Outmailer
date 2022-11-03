@@ -75,11 +75,12 @@ const searchEmail =(values:any)=>{
             </div>
             <div
             style={{
-                margin:'10px'
+                margin:'10px',
+                display:'flex' 
             }}>
             {showLogin &&<Link href='/login'><Button icon={<KeyOutlined />}> Log In</Button></Link>}
             {!showLogin &&<Button  icon={<LogoutOutlined />} onClick={logOut}> Log out</Button>}
-            <Link href='/register'><Button type='primary' icon={<UserAddOutlined/>}> Register</Button></Link>
+            {/* <Link href='/register'><Button type='primary' icon={<UserAddOutlined/>}> Register</Button></Link> */}
             </div>
         </div>
       </Header>
@@ -133,7 +134,7 @@ For business services and newsletter signups, disposable emails addresses are lo
                                   <Image
                         alt='arrow'
                         src={Spam}
-                        width={400}
+                        width={350}
                       /> 
                       
 
@@ -151,12 +152,10 @@ For business services and newsletter signups, disposable emails addresses are lo
                                   <Image
                         alt='arrow'
                         src={SpamCheck}
-                        width={400}
+                        width={350}
                       /> 
-                     <div><h1 style={{fontSize:'1.5rem'}}>Detect Spammy & Disposable<br/> Email Addresses </h1> 
-            <p style={{width:"350px"}}>Disposable email addresses are one-time use addresses. Sometimes they are forwarded to a real address to track sites that send other unsolicited mail. Othertimes they are used once and ignored completely.
-
-For business services and newsletter signups, disposable emails addresses are low quality emails to collect.</p> 
+                     <div><h1 style={{fontSize:'1.5rem'}}>Never waste a Lead again</h1> 
+            <p style={{width:"350px"}}>Instead of writing down every single lead or potential client/customer on paper you can now save leads on your account that you reach out to at any time, so you can never waste a single lead again</p> 
                 </div> 
 
             
@@ -170,15 +169,13 @@ For business services and newsletter signups, disposable emails addresses are lo
         flexWrap:'wrap'
 
         }}>
-            <div><h1 style={{fontSize:'1.5rem'}}>Detect Spammy & Disposable<br/> Email Addresses </h1> 
-            <p style={{width:"350px"}}>Disposable email addresses are one-time use addresses. Sometimes they are forwarded to a real address to track sites that send other unsolicited mail. Othertimes they are used once and ignored completely.
-
-For business services and newsletter signups, disposable emails addresses are low quality emails to collect.</p> 
+            <div><h1 style={{fontSize:'1.5rem'}}>Boost your Response Rate &<br></br> Open rates</h1> 
+            <p style={{width:"350px"}}>Dodging spammy and disposable emails and checking the deliverability of the emails you reach out to will help you significantly increase your response rate & open rate & ultimately make your outreach a success</p> 
                 </div> 
                                   <Image
                         alt='arrow'
                         src={EmailDeliv}
-                        width={400}
+                        width={350}
                       /> 
                      
 

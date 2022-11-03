@@ -28,4 +28,10 @@ a {
   .mediaMobile{
     background-size:cover !important
   }
+  .list-mob{
+    margin: 0 10px !important;
+  }
+  .head-mob{
+    margin: 0 50px !important;
+  }
 }

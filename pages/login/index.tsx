@@ -24,7 +24,9 @@ const index: React.FC = () => {
     const authentication = getAuth(app);
     signInWithEmailAndPassword(authentication, values.email, values.password)
         .then((response:any) => {
+          console.log(response)
           localStorage.setItem('accessToken', response.user.accessToken) 
+          localStorage.setItem('id', response.user.uid) 
           message.success('You are loged in')
           setIsLoading(false)
           router.push('/')

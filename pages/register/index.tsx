@@ -43,6 +43,7 @@ const index: React.FC = () => {
       createUserWithEmailAndPassword(authentication, values.user.email, values.user.password)
         .then((response:any) => {
           localStorage.setItem('accessToken', response.user.accessToken)
+          localStorage.setItem('id', response.user.uid)
           console.log("res",response)
           message.success('Account created successfully')
           setIsLoading(false)
