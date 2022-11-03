@@ -95,7 +95,7 @@ const searchEmail =(values:any)=>{
         verticalAlign: 'middle',
         }}>
             <div style={{marginInline:"30px"}}>
-            <h1 style={{fontSize:'2rem'}}><b>Avoid being in spam & Fake emails</b></h1>
+            <h1 style={{fontSize:'2rem'}}><b>Avoid spam & faulsy emails</b></h1>
             <h1 style={{fontSize:'1.25rem'}}>Reach out to real emails & save leads</h1>
             </div>
         </Col>
